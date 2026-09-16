@@ -8,4 +8,10 @@
     - "{{BOOT_OS_PROMPT}}"
 {% endif %}
 {% endif %}
+{# the forced password change has to be matched before it can be answered #}
+{% if AUTO_LOGIN_NEW_PASSWORD is defined and AUTO_LOGIN_NEW_PASSWORD %}
+{% for password_prompt in AUTO_LOGIN_PASSWORD_CHANGE_PROMPTS|default(["Current password", "New password", "Retype new password"]) %}
+    - "{{ password_prompt }}"
+{% endfor %}
+{% endif %}
     - 'root@(.*):[/~]#'

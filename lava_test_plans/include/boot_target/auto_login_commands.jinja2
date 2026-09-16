@@ -1,7 +1,20 @@
 {# the command that becomes root, for a user who reaches it some other way #}
 {# than su - through sudo, say                                            #}
 {% set AUTO_LOGIN_SU_COMMAND = AUTO_LOGIN_SU_COMMAND|default("su") %}
+
+{# Some images ship an expired password and force a new one to be set right #}
+{# after the first login. AUTO_LOGIN_NEW_PASSWORD answers that exchange:    #}
+{# the current password, then the new one twice, in reply to the prompts    #}
+{# boot_os_prompt.jinja2 adds for it.                                       #}
+{% if AUTO_LOGIN_NEW_PASSWORD is defined and AUTO_LOGIN_NEW_PASSWORD %}
+      login_commands:
+        - "{{ AUTO_LOGIN_PASSWORD }}"
+        - "{{ AUTO_LOGIN_NEW_PASSWORD }}"
+        - "{{ AUTO_LOGIN_NEW_PASSWORD }}"
 {% if AUTO_LOGIN_USERNAME != 'root' %}
+        - {{ AUTO_LOGIN_SU_COMMAND }}
+{% endif %}
+{% elif AUTO_LOGIN_USERNAME != 'root' %}
       login_commands:
         # Become super user to run tests
         - {{ AUTO_LOGIN_SU_COMMAND }}
