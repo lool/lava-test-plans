@@ -1,5 +1,8 @@
+{# the command that becomes root, for a user who reaches it some other way #}
+{# than su - through sudo, say                                            #}
+{% set AUTO_LOGIN_SU_COMMAND = AUTO_LOGIN_SU_COMMAND|default("su") %}
 {% if AUTO_LOGIN_USERNAME != 'root' %}
       login_commands:
         # Become super user to run tests
-        - su
+        - {{ AUTO_LOGIN_SU_COMMAND }}
 {% endif %}
