@@ -28,8 +28,6 @@
 {% endif %}
 {% endblock global_settings %}
 
-{% block actions %}
-
 {% block deploy_target %}
 - deploy:
     timeout:
@@ -211,7 +209,3 @@
 {% block boot_commands %}
 {% endblock boot_commands %}
 {% endblock boot_target %}
-
-{{ super() }}
-
-{% endblock actions %}

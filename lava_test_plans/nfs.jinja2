@@ -30,8 +30,6 @@
 {% set apply_overlay = "overlays" %}
 {% endif %}
 
-{% block actions %}
-
 {% block deploy_target %}
 - deploy:
 {% if deploy_namespace is defined %}
@@ -181,7 +179,3 @@
 {% block boot_commands %}
 {% endblock boot_commands %}
 {% endblock boot_target %}
-
-{{ super() }}
-
-{% endblock actions %}

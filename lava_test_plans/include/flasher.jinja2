@@ -16,7 +16,6 @@
 
 {% set DEPLOY_TARGET = DEPLOY_TARGET|default("flasher") %}
 
-{% block actions %}
 {% block deploy_target %}
 
 {% if enable_tests is defined and enable_tests %}
@@ -82,7 +81,3 @@
 {% block post_boot_command %}
 {% include "include/boot_target/post_boot_command.jinja2" %}
 {% endblock post_boot_command %}
-
-{{ super() }}
-
-{% endblock actions %}
