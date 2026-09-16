@@ -1,0 +1,10 @@
+{% extends "devices/qcs6490-rb3gen2" %}
+
+{# the ufs flashing stage comes from the common device #}
+{% set qdl_image_dir = "flash_qcs6490-rb3gen2-vision-kit_ufs" %}
+{% set qdl_rootfs_image = "disk-ufs.img2" %}
+{% set qdl_tarball = "flash-ufs.tar.gz" %}
+
+{# ask for the vision kit, an alias of the qcs6490-rb3gen2 device type, #}
+{# which also covers the core kit                                       #}
+{% block device_type %}qcs6490-rb3gen2-vision-kit{% endblock %}

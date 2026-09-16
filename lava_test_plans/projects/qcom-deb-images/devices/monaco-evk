@@ -1,0 +1,6 @@
+{% extends "devices/monaco-evk" %}
+
+{# the sail_nor + ufs flashing stages come from the common device #}
+{% set qdl_image_dir = "flash_monaco-evk_ufs" %}
+{% set qdl_rootfs_image = "disk-ufs.img2" %}
+{% set qdl_tarball = "flash-ufs.tar.gz" %}

@@ -1,0 +1,6 @@
+{% extends "devices/qcs9100-ride" %}
+
+{# the sail_nor + ufs flashing stages come from the common device #}
+{% set qdl_image_dir = "flash_qcs9100-ride-r3_ufs" %}
+{% set qdl_rootfs_image = "disk-ufs.img2" %}
+{% set qdl_tarball = "flash-ufs.tar.gz" %}

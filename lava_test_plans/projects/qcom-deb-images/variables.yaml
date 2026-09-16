@@ -25,7 +25,7 @@
 "GST_IGNORE_TESTS_FILE": "variable-value"
 "PTEST_EXCLUDE": "variable-value"
 "QA_SERVER_PROJECT": "qa-server-project"
-"PROJECT": "projects/meta-qcom/"
+"PROJECT": "projects/qcom-deb-images/"
 "LXC_BOOT_FILE": ""
 "LXC_ROOTFS_FILE": ""
 "VIDEO_DEVICES" : {"/dev/video0": "venus-encoder", "/dev/video1": "venus-decoder"}
@@ -36,3 +36,11 @@
 "KERNEL_CONFIG": "defconfig"
 "TOOLCHAIN": "unknown"
 "BUILD_URL": "https://some-url"
+# images live in a private S3 bucket, every download is authenticated
+"AUTH_HEADER_NAME": "QLIAuthorization"
+"AUTH_HEADER_TOKEN": "Q_QLI_S3_TOKEN"
+# debian suite, optionally with the image variant, e.g. trixie-weston-multimedia
+"DEBIAN_RELEASE": "trixie"
+"OS_INFO": "debian"
+"TEST_DEFINITIONS_REPOSITORY": "https://github.com/qualcomm-linux/qcom-linux-testkit/"
+"TEST_DEFINITIONS_REVISION": "main"

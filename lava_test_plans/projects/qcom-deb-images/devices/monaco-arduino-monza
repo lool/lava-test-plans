@@ -1,0 +1,13 @@
+{% extends "devices/monaco-arduino-monza" %}
+
+{# the debian image is flashed over emmc only, with the ddr firehose        #}
+{# programmer; the common device flashes spinor first using xbl_s. The      #}
+{# stage list is spelled out rather than built from rawprogram/patch, which #}
+{# the common device only defines later.                                    #}
+{% set firehose_program = "prog_firehose_ddr.elf" %}
+{% set qdl_stages = [
+    {"storage": "emmc", "path": "", "rawprogram": "rawprogram0.xml", "patch": "patch0.xml"}
+] %}
+{% set qdl_image_dir = "flash_monaco-arduino-monza_emmc" %}
+{% set qdl_rootfs_image = "disk-sdcard.img2" %}
+{% set qdl_tarball = "flash-emmc.tar.gz" %}

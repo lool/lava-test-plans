@@ -1,0 +1,11 @@
+{% extends "devices/qcs615-ride" %}
+
+{# the debian image ships five rawprogram/patch pairs, the common device six #}
+{% set qdl_stages = [
+    {"storage": "ufs", "path": "",
+     "rawprogram": "rawprogram0.xml rawprogram1.xml rawprogram2.xml rawprogram3.xml rawprogram4.xml",
+     "patch": "patch0.xml patch1.xml patch2.xml patch3.xml patch4.xml"}
+] %}
+{% set qdl_image_dir = "flash_qcs615-ride_ufs" %}
+{% set qdl_rootfs_image = "disk-ufs.img2" %}
+{% set qdl_tarball = "flash-ufs.tar.gz" %}
