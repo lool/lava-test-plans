@@ -437,7 +437,7 @@ def main():
     context.update({"device_type": args.device_type})
     context.update({"overlays": overlays})
 
-    # Load device file to extract EXCLUDED_TESTPLANS using Jinja2
+    # Load device file to extract the exclusion lists using Jinja2
     try:
         # Use Jinja2 to render the device template and extract variables
         device_template = j2_env.get_template(args.device_type)
@@ -449,6 +449,18 @@ def main():
             context["EXCLUDED_TESTPLANS"] = device_module.EXCLUDED_TESTPLANS
             logger.info(
                 f"Found EXCLUDED_TESTPLANS in device file: {device_module.EXCLUDED_TESTPLANS}"
+            )
+
+        # And EXCLUDED_TESTS the same way. A test case reads it as
+        # EXCLUDED_TESTS|default([]), which resolves against the context, so a
+        # device that only sets it as a template variable is not seen unless it
+        # happens to be reached through inheritance - which depends on how the
+        # device was addressed on the command line. Putting it in the context
+        # makes it work whichever way round that is.
+        if hasattr(device_module, "EXCLUDED_TESTS"):
+            context["EXCLUDED_TESTS"] = device_module.EXCLUDED_TESTS
+            logger.info(
+                f"Found EXCLUDED_TESTS in device file: {device_module.EXCLUDED_TESTS}"
             )
     except TemplateNotFound as e:
         logger.debug(f"Could not extract EXCLUDED_TESTPLANS from device file: {e}")
