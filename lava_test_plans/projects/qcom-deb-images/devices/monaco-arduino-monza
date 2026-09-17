@@ -12,11 +12,8 @@
 {% set qdl_rootfs_image = "disk-sdcard.img2" %}
 {% set qdl_tarball = "flash-emmc.tar.gz" %}
 
-{# the bluetooth, audio and display plans need a lab fixture this board is #}
-{# not known to have, and a job asking for one that no device carries sits #}
-{# queued until it times out; drop the entry once the board has it         #}
-{% set EXCLUDED_TESTPLANS = [
-    'pre-merge-bt.yaml',
-    'pre-merge-audio.yaml',
-    'pre-merge-display-gfx.yaml'
-] %}
+{# exclusions are tracked in                                     #}
+{# https://github.com/qualcomm-linux/qcom-deb-images/issues/647 #}
+{% import "projects/qcom-deb-images/include/excluded-tests.jinja2" as excluded %}
+{% set EXCLUDED_TESTS = excluded.EXCLUDED_TESTS %}
+{% set EXCLUDED_TESTPLANS = excluded.EXCLUDED_TESTPLANS %}
