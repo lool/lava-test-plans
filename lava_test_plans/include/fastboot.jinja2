@@ -82,7 +82,6 @@ reboot_to_fastboot: {{ reboot_to_fastboot }}
   test_character_delay: 10
 {% endblock context %}
 
-{% block actions %}
 {% block deploy_target %}
 - deploy:
 {% if lxc_project == true %}
@@ -337,6 +336,7 @@ reboot_to_fastboot: {{ reboot_to_fastboot }}
 {% include "include/boot_target/post_boot_command.jinja2" %}
 {% endblock post_boot_command %}
 
+{% block actions %}
 {{ super() }}
 
 {% if lxc_project == true %}

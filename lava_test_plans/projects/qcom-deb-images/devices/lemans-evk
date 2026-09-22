@@ -1,0 +1,19 @@
+{% extends "devices/lemans-evk" %}
+
+{# the debian image is flashed over ufs only; the common device flashes the #}
+{# sail_nor stage first. The stage list is spelled out rather than built    #}
+{# from rawprogram/patch, which the common device only defines later.       #}
+{% set qdl_stages = [
+    {"storage": "ufs", "path": "",
+     "rawprogram": "rawprogram0.xml rawprogram1.xml rawprogram2.xml rawprogram3.xml rawprogram4.xml rawprogram5.xml",
+     "patch": "patch0.xml patch1.xml patch2.xml patch3.xml patch4.xml patch5.xml"}
+] %}
+{% set qdl_image_dir = "flash_lemans-evk_ufs" %}
+{% set qdl_rootfs_image = "disk-ufs.img2" %}
+{% set qdl_tarball = "flash-ufs.tar.gz" %}
+
+{# exclusions are tracked in                                     #}
+{# https://github.com/qualcomm-linux/qcom-deb-images/issues/647 #}
+{% import "projects/qcom-deb-images/include/excluded-tests.jinja2" as excluded %}
+{% set EXCLUDED_TESTS = excluded.EXCLUDED_TESTS %}
+{% set EXCLUDED_TESTPLANS = excluded.EXCLUDED_TESTPLANS %}

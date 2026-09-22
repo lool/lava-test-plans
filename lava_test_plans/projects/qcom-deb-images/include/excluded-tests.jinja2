@@ -1,0 +1,27 @@
+{# Tests and test plans left out of the debian image jobs. Each device file #}
+{# imports both lists from here, so they are maintained in one place.      #}
+{# The investigation into each exclusion is tracked in                      #}
+{# https://github.com/qualcomm-linux/qcom-deb-images/issues/647             #}
+
+{# WiFi_OnOff needs iw, which the testkit has no debian package mapping for. #}
+{# Its installer then takes the warning it logged about that as the name of   #}
+{# the package to install and dumps apt's policy for the whole archive down   #}
+{# the serial console, using up the whole budget of the test action so that   #}
+{# nothing after it runs. Drop it until the testkit is fixed.                 #}
+{# The rest are not run on the debian images for now.                         #}
+{% set EXCLUDED_TESTS = [
+    'WiFi_OnOff',
+    'AudioRecord',
+    'Docker_Kernel_Config',
+    'Kubernetes_Kernel_Config',
+    'Logging_Journalctl_Validation'
+] %}
+
+{# the bluetooth, audio and display plans need a lab fixture these boards #}
+{# are not known to have, and a job asking for one that no device carries #}
+{# sits queued until it times out; drop the entry once the boards have it #}
+{% set EXCLUDED_TESTPLANS = [
+    'pre-merge-bt.yaml',
+    'pre-merge-audio.yaml',
+    'pre-merge-display-gfx.yaml'
+] %}

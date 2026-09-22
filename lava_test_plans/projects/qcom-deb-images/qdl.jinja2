@@ -1,0 +1,40 @@
+{% extends "include/qdl.jinja2" %}
+
+{# qcom-deb-images publishes its images to a private S3 bucket, so every #}
+{# download carries the QLI authorization header.                        #}
+{% set use_download_headers = true %}
+
+{# The flashing tarball is named <suite>[-<variant>]-flash-<storage>.tar.gz, #}
+{# e.g. trixie-flash-ufs.tar.gz or forky-weston-multimedia-flash-emmc.tar.gz. #}
+{# DEBIAN_RELEASE carries the suite and the image variant; qdl_tarball is set #}
+{# per device and says which storage the board is flashed over.               #}
+{% set debian_release = DEBIAN_RELEASE|default("trixie") %}
+{% set qdl_tarball = qdl_tarball|default("flash-ufs.tar.gz") %}
+{% set image_file_name = debian_release + "-" + qdl_tarball %}
+{# BUILD_DOWNLOAD_URL ends with a "/" #}
+{% set ROOTFS_URL = ROOTFS_URL|default(BUILD_DOWNLOAD_URL + image_file_name) %}
+
+{# bring the network up once the board is flashed, before the OS boots #}
+{% set user_pre_boot_commands = user_pre_boot_commands|default(["network_turn_on"]) %}
+
+{# The image ships with an expired password, so the first login is followed #}
+{# by a forced password change; auto_login_commands.jinja2 answers it. The  #}
+{# debian user reaches root through sudo, the root account having no        #}
+{# password of its own for su to ask for.                                   #}
+{% set AUTO_LOGIN_USERNAME = AUTO_LOGIN_USERNAME|default("debian") %}
+{% set AUTO_LOGIN_PASSWORD = AUTO_LOGIN_PASSWORD|default("debian") %}
+{% set AUTO_LOGIN_PASSWORD_PROMPT = AUTO_LOGIN_PASSWORD_PROMPT|default("Password") %}
+{% set AUTO_LOGIN_NEW_PASSWORD = AUTO_LOGIN_NEW_PASSWORD|default("new password") %}
+{% set AUTO_LOGIN_SU_COMMAND = AUTO_LOGIN_SU_COMMAND|default("sudo su") %}
+{% set BOOT_OS_PROMPT = ["root@debian", "debian@debian"] %}
+
+{% block metadata %}
+metadata:
+  path: projects/qcom-deb-images/
+{% include PROJECT+"include/qcom-deb-images-metadata.jinja2" %}
+{% endblock metadata %}
+
+{% block context %}
+  lava_test_results_dir: /home/lava-%s
+  test_character_delay: 10
+{% endblock context %}

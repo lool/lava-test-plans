@@ -42,7 +42,6 @@
 {% set target_downloads_timeout = 0 %}
 {% set TARGET_BOOT_TIMEOUT = qdl_boot_timeout * (qdl_stages|length) %}
 
-{% block actions %}
 {% block deploy_target %}
 - deploy:
     rootfs_image: "{{ qdl_rootfs_image }}"
@@ -56,9 +55,7 @@
     timeout:
       minutes: {{ qdl_deploy_timeout }}
     to: qdl
-{% endblock deploy_target %}
-
-{% block boot_target %}
+{# flashing over qdl is part of the deployment #}
 {% for stage in qdl_stages %}
 - boot:
     firehose_program: "{{ firehose_program }}"
@@ -75,6 +72,9 @@
       minutes: {{ qdl_boot_timeout }}
     method: qdl
 {% endfor %}
+{% endblock deploy_target %}
+
+{% block boot_target %}
 - boot:
 {% block boot_commands %}
 {% endblock boot_commands %}
@@ -87,7 +87,3 @@
 {% include "include/boot_target/boot_target.jinja2" %}
 
 {% endblock boot_target %}
-
-{{ super() }}
-
-{% endblock actions %}

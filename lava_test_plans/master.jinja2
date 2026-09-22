@@ -29,6 +29,11 @@
 
 {% set enable_tests = enable_tests|default(true) %}
 
+{# named device commands issued once the image is deployed and before the #}
+{# OS boots, e.g. ["network_turn_on"]. Each name has to be defined in the  #}
+{# device dictionary of every device that renders it.                      #}
+{% set user_pre_boot_commands = user_pre_boot_commands|default([]) %}
+
 {% block global_settings %}
 timeouts:
   job:
@@ -98,6 +103,24 @@ tags:
 
 actions:
 {% block actions %}
+{% block deploy_target %}
+{% endblock deploy_target %}
+
+{% block pre_boot_command %}
+{% endblock pre_boot_command %}
+
+{% block user_pre_boot_commands %}
+{% for user_pre_boot_command in user_pre_boot_commands %}
+- command:
+    name: {{ user_pre_boot_command }}
+{% endfor %}
+{% endblock user_pre_boot_commands %}
+
+{% block boot_target %}
+{% endblock boot_target %}
+
+{% block post_boot_command %}
+{% endblock post_boot_command %}
 
 {% block test_target %}
 {% include "include/test_target.jinja2" %}
